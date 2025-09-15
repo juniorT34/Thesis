@@ -1,0 +1,64 @@
+# Go
+/bin/
+/obj/
+/vendor/
+/*.exe
+/*.dll
+/*.so
+/*.dylib
+*.test
+*.out
+*.log
+*.coverprofile
+
+# Go modules
+go.sum
+
+# Docker
+*.env
+.env.*
+docker-compose.override.yml
+
+# Node.js / JavaScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+dist/
+build/
+coverage/
+*.tgz
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+.eggs/
+*.egg
+*.env
+.venv/
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.rej
+.cursor
