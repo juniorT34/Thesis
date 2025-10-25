@@ -1,0 +1,107 @@
+#we do not need to mention the version as we are using the latest version of docker compose
+#version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.watch=true
+      - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.email=your@email.com
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --log.level=INFO
+      # Basic performance optimizations
+      - --serversTransport.insecureSkipVerify=true
+      - --serversTransport.maxIdleConnsPerHost=200
+    ports:
+      - "8080:8080"  # Traefik dashboard
+      - "8001:80"      # HTTP traffic
+      - "8443:443"    # HTTPS traffic
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - web
+    # Resource limits for Traefik
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    # Health check for Traefik
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  backend:
+    build: .
+    privileged: true
+    env_file:
+      - .env.development.local
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - JWT_SECRET=your-super-secret-jwt-key-for-development
+      - JWT_EXPIRES_IN=7d
+      - MORGAN_MODE=dev
+      - CHROMIUM_BROWSER1=linuxserver/chromium:latest
+      # MONGODB_URI will be loaded from .env.development.local
+      # Add your other env vars here
+    ports:
+      - "4000:4000"  # Expose backend directly for testing
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=4000"
+      # Performance optimizations for backend routing
+      - "traefik.http.services.backend.loadbalancer.healthcheck.path=/api/v1/health"
+      - "traefik.http.services.backend.loadbalancer.healthcheck.interval=30s"
+      - "traefik.http.services.backend.loadbalancer.healthcheck.timeout=10s"
+      # Connection settings
+      - "traefik.http.services.backend.loadbalancer.responseForwarding.flushInterval=100ms"
+    networks:
+      - web
+    depends_on:
+    - traefik
+    # Resource limits for backend
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    # Health check for backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  web:
+    external: false
+    driver: bridge
+    # Network optimizations
+    driver_opts:
+      com.docker.network.bridge.name: "safebox-bridge"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.driver.mtu: "1500"
