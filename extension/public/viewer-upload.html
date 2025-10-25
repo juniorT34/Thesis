@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload File for Viewer</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .upload-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #FF6D00;
+      margin-bottom: 0.5rem;
+    }
+    
+    .upload-area {
+      border: 3px dashed #FFB74D;
+      border-radius: 8px;
+      padding: 3rem 1.5rem;
+      margin: 1.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .upload-area:hover, .upload-area.drag-over {
+      border-color: #FF6D00;
+      background-color: #FFF3E0;
+    }
+    
+    .upload-icon {
+      font-size: 48px;
+      color: #FF6D00;
+      margin-bottom: 1rem;
+    }
+    
+    #file-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .file-info {
+      margin: 1rem 0;
+      color: #666;
+    }
+    
+    #selected-file-name {
+      font-weight: 600;
+      color: #333;
+      word-break: break-all;
+    }
+    
+    button {
+      background-color: #FF6D00;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #E65100;
+    }
+    
+    button:disabled {
+      background-color: #FFB74D;
+      cursor: not-allowed;
+    }
+    
+    .error-message {
+      color: #dc3545;
+      margin-top: 1rem;
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      margin-right: 0.5rem;
+    }
+    
+    .file-types {
+      margin-top: 1.5rem;
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+    }
+    
+    .file-types h3 {
+      color: #FF6D00;
+      margin-bottom: 0.5rem;
+    }
+    
+    .file-types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 0.5rem;
+      text-align: left;
+      margin-top: 1rem;
+    }
+    
+    .file-type-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    
+    .file-type-item::before {
+      content: "•";
+      color: #FF6D00;
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-container">
+    <h1>Upload File to View</h1>
+    <p>Upload any document to open it in a secure disposable environment.</p>
+    
+    <div id="upload-area" class="upload-area">
+      <div class="upload-icon">↑</div>
+      <p>Drag & drop a file here or click to browse</p>
+      <input type="file" id="file-input" />
+    </div>
+    
+    <div class="file-info">
+      <p>Selected file: <span id="selected-file-name">None</span></p>
+    </div>
+    
+    <button id="start-viewer-btn" disabled>Start Viewer</button>
+    <p id="error-message" class="error-message" style="display: none;"></p>
+    
+    <div class="file-types">
+      <h3>Supported File Types</h3>
+      <p>LibreOffice can open the following file formats:</p>
+      <div class="file-types-grid">
+        <div class="file-type-item">DOC, DOCX</div>
+        <div class="file-type-item">XLS, XLSX</div>
+        <div class="file-type-item">PPT, PPTX</div>
+        <div class="file-type-item">ODT, ODS</div>
+        <div class="file-type-item">ODP, ODF</div>
+        <div class="file-type-item">PDF</div>
+        <div class="file-type-item">RTF</div>
+        <div class="file-type-item">TXT</div>
+        <div class="file-type-item">CSV</div>
+        <div class="file-type-item">HTML</div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="viewer-upload.js"></script>
+</body>
+</html>

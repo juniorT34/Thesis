@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disposable Services</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-section">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="title-section">
+          <h1 class="title">Sæfe Box</h1>
+          <p class="subtitle">Fear Nothing Online</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="login-button" title="Profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" title="Toggle Theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Browser Container -->
+      <section class="feature-section" id="browser-service">
+        <div class="section-header">
+          <h2>Browser Container</h2>
+          <span class="status-badge" id="browser-status">Stopped</span>
+        </div>
+        <div class="feature-content">
+          <div class="service-controls">
+            <button class="primary-btn" id="browser-start">
+              <span class="btn-content">
+                <span class="btn-text">Start Browser</span>
+                <div class="loading-spinner" style="display: none;"></div>
+              </span>
+            </button>
+            <button id="browser-retry" class="retry-button" style="display: none;">Retry</button>
+            <div id="browser-message" class="status" style="display: none;"></div>
+            <div class="timer-display" id="browser-session-controls" style="display: none;">
+              <div class="timer-text">Session expires in:</div>
+              <div class="timer-countdown" id="browser-timer">05:00</div>
+              <div class="session-actions">
+                <button class="extend-btn" id="browser-extend">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Extend +5
+                </button>
+                <button class="stop-btn" id="browser-stop">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="6" width="12" height="12" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Stop Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Desktop Container -->
+      <section class="feature-section" id="desktop-service">
+        <div class="section-header">
+          <h2>Desktop Container</h2>
+          <span class="status-badge" id="desktop-status">Stopped</span>
+        </div>
+        <div class="feature-content">
+          <div class="service-controls">
+            <div class="desktop-config">
+              <label for="desktop-machine-type">Linux Distribution:</label>
+              <select id="desktop-machine-type" class="custom-select">
+                <option value="ubuntu">Ubuntu Desktop</option>
+                <option value="debian">Debian Desktop</option>
+                <option value="fedora">Fedora Desktop</option>
+                <option value="alpine">Alpine Desktop</option>
+                <option value="arch">Arch Desktop</option>
+              </select>
+            </div>
+            <button class="primary-btn" id="desktop-start">
+              <span class="btn-content">
+                <span class="btn-text">Start Desktop</span>
+                <div class="loading-spinner" style="display: none;"></div>
+              </span>
+            </button>
+            <button id="desktop-retry" class="retry-button" style="display: none;">Retry</button>
+            <div id="desktop-message" class="status" style="display: none;"></div>
+            <div class="timer-display" id="desktop-session-controls" style="display: none;">
+              <div class="timer-text">Session expires in:</div>
+              <div class="timer-countdown" id="desktop-timer">05:00</div>
+              <div class="session-actions">
+                <button class="extend-btn" id="desktop-extend">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Extend +5
+                </button>
+                <button class="stop-btn" id="desktop-stop">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="6" width="12" height="12" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Stop Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Viewer Container -->
+      <section class="feature-section" id="viewer-service">
+        <div class="section-header">
+          <h2>Viewer Container</h2>
+          <span class="status-badge" id="viewer-status">Stopped</span>
+        </div>
+        <div class="feature-content">
+          <div class="service-controls">
+            <button class="primary-btn" id="viewer-start">
+              <span class="btn-content">
+                <span class="btn-text">Start Viewer</span>
+                <div class="loading-spinner" style="display: none;"></div>
+              </span>
+            </button>
+            <button id="viewer-retry" class="retry-button" style="display: none;">Retry</button>
+            <div id="viewer-message" class="status" style="display: none;"></div>
+            <div class="timer-display" id="viewer-session-controls" style="display: none;">
+              <div class="timer-text">Session expires in:</div>
+              <div class="timer-countdown" id="viewer-timer">05:00</div>
+              <div class="session-actions">
+                <button class="extend-btn" id="viewer-extend">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Extend +5
+                </button>
+                <button class="stop-btn" id="viewer-stop">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="6" width="12" height="12" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Stop Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-actions">
+        <button class="footer-btn" id="settingsBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M19.4 15A1.65 1.65 0 0 0 20.25 13.5L20.4 12.9A1.65 1.65 0 0 0 19.4 11.1L18.75 10.5A1.65 1.65 0 0 0 17.1 10.5L16.5 11.1A1.65 1.65 0 0 0 16.5 12.9L17.1 13.5A1.65 1.65 0 0 0 18.75 13.5L19.4 15Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Settings
+        </button>
+        <div class="keyboard-hint">
+          Press <kbd>Enter</kbd> to start/retry • <kbd>Esc</kbd> to close
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="settingsModal">
+      <div class="modal-header">
+        <h3>Settings</h3>
+        <button class="close-btn" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="setting-group">
+          <label class="setting-label">
+            <input type="checkbox" id="enableNotifications" checked>
+            <span class="checkmark"></span>
+            Enable Notifications
+          </label>
+        </div>
+        
+        <div class="setting-group">
+          <label class="setting-label">
+            <input type="checkbox" id="autoStart">
+            <span class="checkmark"></span>
+            Auto-start containers on extension load
+          </label>
+        </div>
+        
+        <div class="setting-group">
+          <label for="sessionDuration">Default Session Duration (minutes)</label>
+          <div class="range-group">
+            <input type="range" id="sessionDuration" min="1" max="30" value="5" class="slider">
+            <span class="range-value" id="sessionDurationValue">5</span>
+          </div>
+        </div>
+        
+        <div class="setting-group">
+          <label for="defaultDistro">Default Linux Distribution</label>
+          <select id="defaultDistro" class="custom-select">
+            <option value="ubuntu">Ubuntu Desktop</option>
+            <option value="debian">Debian Desktop</option>
+            <option value="fedora">Fedora Desktop</option>
+            <option value="alpine">Alpine Desktop</option>
+            <option value="arch">Arch Desktop</option>
+          </select>
+        </div>
+        
+        <div class="setting-group">
+          <label class="setting-label">
+            <input type="checkbox" id="showWarnings" checked>
+            <span class="checkmark"></span>
+            Show session expiry warnings
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
