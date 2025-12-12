@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extension Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { margin: 10px; padding: 10px; }
+        .result { margin: 10px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Extension API Test</h1>
+    
+    <button onclick="testHealth()">Test Backend Health</button>
+    <button onclick="testDesktopStart()">Test Desktop Start</button>
+    <button onclick="resetSettings()">Reset Extension Settings</button>
+    
+    <div id="results"></div>
+
+    <script>
+        function log(message) {
+            const results = document.getElementById('results');
+            results.innerHTML += '<div class="result">' + message + '</div>';
+            console.log(message);
+        }
+
+        async function testHealth() {
+            try {
+                log('Testing backend health...');
+                const response = await fetch('http://localhost:4000/api/v1/health');
+                const data = await response.json();
+                log('Health check result: ' + JSON.stringify(data, null, 2));
+            } catch (error) {
+                log('Health check failed: ' + error.message);
+            }
+        }
+
+        async function testDesktopStart() {
+            try {
+                log('Testing desktop start...');
+                const response = await fetch('http://localhost:4000/api/v1/desktop/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ flavor: 'fedora' })
+                });
+                const data = await response.json();
+                log('Desktop start result: ' + JSON.stringify(data, null, 2));
+            } catch (error) {
+                log('Desktop start failed: ' + error.message);
+            }
+        }
+
+        async function resetSettings() {
+            try {
+                log('Resetting extension settings...');
+                const response = await chrome.runtime.sendMessage({ action: 'resetSettings' });
+                log('Reset result: ' + JSON.stringify(response, null, 2));
+            } catch (error) {
+                log('Reset failed: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
